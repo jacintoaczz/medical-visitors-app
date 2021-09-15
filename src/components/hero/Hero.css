@@ -1,0 +1,12 @@
+.hero {
+  height: 64rem;
+}
+
+.title {
+  padding-top: 10rem;
+}
+
+.login__area {
+  border-left: 3px solid gainsboro;
+  padding-left: 1.5rem;
+}
