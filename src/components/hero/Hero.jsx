@@ -6,7 +6,7 @@ import { LoginLinks } from "../login-links/LoginLinks";
 export const Hero = () => {
   return (
     <section className="container hero">
-      <div className="row">
+      <div className="row mt-2">
         <div className="col-6">
           <div className="title">
             {/* Title */}
