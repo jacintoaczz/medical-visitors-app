@@ -1,6 +1,20 @@
 import React from "react";
+import { useForm } from "../../../hooks/useForm";
 
 export const VisitorLogin = () => {
+  /* Hooks */
+  const [{ email, password }, reset, handleInputChange] = useForm({
+    email: "email@example.com",
+    password: "******",
+  });
+
+  /* Event/functionality handlers */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const validateInputs = () => {};
+
   return (
     <div className="container d-flex align-items-center justify-content-center mt-5">
       <div className="card">
@@ -19,7 +33,7 @@ export const VisitorLogin = () => {
           </div>
 
           {/* Forms row */}
-          <div className="row mt-3">
+          <form onSubmit={handleSubmit} className="row mt-3">
             {/* Email input */}
             <div className="col-6">
               <div className="mb-3">
@@ -27,10 +41,14 @@ export const VisitorLogin = () => {
                   Email
                 </label>
                 <input
-                  type="email"
                   className="form-control"
                   id="email"
+                  name="email"
+                  onChange={handleInputChange}
                   placeholder="email@example.com"
+                  type="email"
+                  value={email}
+                  required={true}
                 />
               </div>
             </div>
@@ -43,10 +61,14 @@ export const VisitorLogin = () => {
                   Contraseña
                 </label>
                 <input
-                  type="password"
                   className="form-control"
                   id="password"
+                  name="password"
+                  onChange={handleInputChange}
                   placeholder="*********"
+                  type="password"
+                  value={password}
+                  required={true}
                 />
               </div>
             </div>
@@ -59,7 +81,7 @@ export const VisitorLogin = () => {
               </button>
             </div>
             {/* #Submit button */}
-          </div>
+          </form>
           {/* #Forms row */}
         </div>
         {/* #Card body */}

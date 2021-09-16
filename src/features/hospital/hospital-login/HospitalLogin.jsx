@@ -1,6 +1,19 @@
 import React from "react";
 
+import { useForm } from "../../../hooks/useForm";
+
 export const HospitalLogin = () => {
+  /* Hooks */
+  const [{ email, password }, reset, handleInputChange] = useForm({
+    email: "email@example.com",
+    password: "******",
+  });
+
+  /* Event/functionality handlers */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="container d-flex align-items-center justify-content-center mt-5">
       <div className="card">
@@ -19,7 +32,7 @@ export const HospitalLogin = () => {
           </div>
 
           {/* Forms row */}
-          <div className="row mt-3">
+          <form className="row mt-3" onSubmit={handleSubmit} autoComplete="off">
             {/* Email input */}
             <div className="col-6">
               <div className="mb-3">
@@ -27,10 +40,13 @@ export const HospitalLogin = () => {
                   Email
                 </label>
                 <input
-                  type="email"
                   className="form-control"
                   id="email"
+                  name="email"
+                  onChange={handleInputChange}
                   placeholder="email@example.com"
+                  type="email"
+                  value={email}
                 />
               </div>
             </div>
@@ -43,10 +59,13 @@ export const HospitalLogin = () => {
                   Contraseña
                 </label>
                 <input
-                  type="password"
                   className="form-control"
                   id="password"
+                  name="password"
+                  onChange={handleInputChange}
                   placeholder="*********"
+                  type="password"
+                  value={password}
                 />
               </div>
             </div>
@@ -59,7 +78,7 @@ export const HospitalLogin = () => {
               </button>
             </div>
             {/* #Submit button */}
-          </div>
+          </form>
           {/* #Forms row */}
         </div>
         {/* #Card body */}

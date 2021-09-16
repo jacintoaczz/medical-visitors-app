@@ -1,6 +1,26 @@
 import React from "react";
 
+import { useForm } from "../../../hooks/useForm";
+
 export const VisitorRegister = () => {
+  /* Hooks */
+  const [
+    { firstName, lastName, company, email, password },
+    reset,
+    handleInputChange,
+  ] = useForm({
+    firstName: "John",
+    lastName: "Doe",
+    company: "Una empresa",
+    email: "email@example.com",
+    password: "******",
+  });
+
+  /* Event/functionality handlers */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="container d-flex align-items-center justify-content-center mt-5">
       <div className="card">
@@ -18,7 +38,7 @@ export const VisitorRegister = () => {
           </div>
 
           {/* Forms row */}
-          <div className="row mt-3">
+          <form className="row mt-3" onSubmit={handleSubmit}>
             {/* First name input */}
             <div className="col-6">
               <div className="mb-3">
@@ -30,6 +50,9 @@ export const VisitorRegister = () => {
                   className="form-control"
                   id="firstName"
                   placeholder="John"
+                  value={firstName}
+                  name="firstName"
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -46,6 +69,9 @@ export const VisitorRegister = () => {
                   className="form-control"
                   id="lastName"
                   placeholder="Doe"
+                  value={lastName}
+                  name="lastName"
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -62,6 +88,9 @@ export const VisitorRegister = () => {
                   className="form-control"
                   id="email"
                   placeholder="email@example.com"
+                  value={email}
+                  name="email"
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -78,6 +107,9 @@ export const VisitorRegister = () => {
                   className="form-control"
                   id="company"
                   placeholder="Una empresa"
+                  value={company}
+                  name="company"
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -94,6 +126,9 @@ export const VisitorRegister = () => {
                   className="form-control"
                   id="password"
                   placeholder="*********"
+                  value={password}
+                  name="password"
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -122,7 +157,7 @@ export const VisitorRegister = () => {
               </button>
             </div>
             {/* #Submit button */}
-          </div>
+          </form>
           {/* #Forms row */}
         </div>
         {/* #Card body */}
