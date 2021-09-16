@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const LoginLinks = () => {
   return (
@@ -13,9 +14,10 @@ export const LoginLinks = () => {
               With supporting text below as a natural lead-in to additional
               content.
             </p>
-            <a href="#" className="btn btn-success">
+
+            <Link to="/auth/visitor-register" className="btn btn-success">
               Ir a registro
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -31,9 +33,10 @@ export const LoginLinks = () => {
               With supporting text below as a natural lead-in to additional
               content.
             </p>
-            <a href="#" className="btn btn-outline-success">
+
+            <Link to="/auth/visitor-login" className="btn btn-outline-success">
               Iniciar sesion
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -49,9 +52,10 @@ export const LoginLinks = () => {
               With supporting text below as a natural lead-in to additional
               content.
             </p>
-            <a href="#" className="btn btn-outline-success">
+
+            <Link to="/auth/hospital-login" className="btn btn-outline-success">
               Iniciar sesion
-            </a>
+            </Link>
           </div>
         </div>
       </div>
