@@ -42,7 +42,7 @@ export const VisitorRegister = () => {
             {/* First name input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="firstName" className="form-label">
+                <label htmlFor="firstName" className="form-label">
                   Nombre
                 </label>
                 <input
@@ -61,7 +61,7 @@ export const VisitorRegister = () => {
             {/* Last name input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="lastName" className="form-label">
+                <label htmlFor="lastName" className="form-label">
                   Apellido
                 </label>
                 <input
@@ -80,7 +80,7 @@ export const VisitorRegister = () => {
             {/* Email input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="email" className="form-label">
+                <label htmlFor="email" className="form-label">
                   Email
                 </label>
                 <input
@@ -99,7 +99,7 @@ export const VisitorRegister = () => {
             {/* Company input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="company" className="form-label">
+                <label htmlFor="company" className="form-label">
                   Empresa
                 </label>
                 <input
@@ -118,7 +118,7 @@ export const VisitorRegister = () => {
             {/* Password input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="password" className="form-label">
+                <label htmlFor="password" className="form-label">
                   Contraseña
                 </label>
                 <input
@@ -137,7 +137,7 @@ export const VisitorRegister = () => {
             {/* Password input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="confirmPassword" className="form-label">
+                <label htmlFor="confirmPassword" className="form-label">
                   Confirmar contraseña
                 </label>
                 <input

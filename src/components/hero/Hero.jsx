@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import "./Hero.css";
 import { LoginLinks } from "../login-links/LoginLinks";
@@ -12,10 +13,10 @@ export const Hero = () => {
             {/* Title */}
             <div className="row">
               <div className="col">
-                <h1>Bienvenido...</h1>
+                <h1>Bienvenid@...</h1>
                 <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Ratione, voluptas?
+                  Si es administrador, presione el botón para proceder a su
+                  inicio de sesión.
                 </p>
               </div>
             </div>
@@ -24,9 +25,12 @@ export const Hero = () => {
             {/* CTA */}
             <div className="row">
               <div className="col">
-                <a href="#about" className="btn btn-outline-primary">
-                  Mira nuestros servicios!
-                </a>
+                <Link
+                  to="/auth/admin-login"
+                  className="btn btn-outline-primary"
+                >
+                  Iniciar sesión
+                </Link>
               </div>
             </div>
             {/* #CTA */}

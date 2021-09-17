@@ -1,5 +1,8 @@
 import React from "react";
+import { toast } from "react-toastify";
+
 import { useForm } from "../../../hooks/useForm";
+import VisitorDataService from "../../../services/visitor.service";
 
 export const VisitorLogin = () => {
   /* Hooks */
@@ -11,9 +14,35 @@ export const VisitorLogin = () => {
   /* Event/functionality handlers */
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const payload = {
+      email,
+      password,
+    };
+
+    VisitorDataService.login(payload)
+      .then((res) => {
+        console.log("Response: ", res);
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          toast.error(
+            "No se ha encontrado un usuario con el email introducido.",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+            }
+          );
+        }
+      });
   };
 
-  const validateInputs = () => {};
+  // const validateInputs = () => {};
 
   return (
     <div className="container d-flex align-items-center justify-content-center mt-5">
@@ -33,11 +62,11 @@ export const VisitorLogin = () => {
           </div>
 
           {/* Forms row */}
-          <form onSubmit={handleSubmit} className="row mt-3">
+          <form onSubmit={handleSubmit} className="row mt-3" autoComplete="off">
             {/* Email input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="email" className="form-label">
+                <label htmlFor="email" className="form-label">
                   Email
                 </label>
                 <input
@@ -57,7 +86,7 @@ export const VisitorLogin = () => {
             {/* Password input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="password" className="form-label">
+                <label htmlFor="password" className="form-label">
                   Contraseña
                 </label>
                 <input
