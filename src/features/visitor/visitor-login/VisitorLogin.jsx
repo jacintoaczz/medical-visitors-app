@@ -6,7 +6,7 @@ import VisitorDataService from "../../../services/visitor.service";
 
 export const VisitorLogin = () => {
   /* Hooks */
-  const [{ email, password }, reset, handleInputChange] = useForm({
+  const [{ email, password }, handleInputChange] = useForm({
     email: "email@example.com",
     password: "******",
   });
@@ -38,6 +38,18 @@ export const VisitorLogin = () => {
               progress: undefined,
             }
           );
+        }
+
+        if (err.response.status === 401) {
+          toast.error("No coincide el usuario ingresado con la contraseña.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
         }
       });
   };

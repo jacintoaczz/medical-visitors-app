@@ -4,17 +4,14 @@ import { useForm } from "../../../hooks/useForm";
 
 export const VisitorRegister = () => {
   /* Hooks */
-  const [
-    { firstName, lastName, company, email, password },
-    reset,
-    handleInputChange,
-  ] = useForm({
-    firstName: "John",
-    lastName: "Doe",
-    company: "Una empresa",
-    email: "email@example.com",
-    password: "******",
-  });
+  const [{ firstName, lastName, company, email, password }, handleInputChange] =
+    useForm({
+      firstName: "John",
+      lastName: "Doe",
+      company: "Una empresa",
+      email: "email@example.com",
+      password: "******",
+    });
 
   /* Event/functionality handlers */
   const handleSubmit = (e) => {

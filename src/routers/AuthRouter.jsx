@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
-import { AdminLogin } from "../features/admin/admin-login/AdminLogin";
+import { AdminLogin } from "../features/admin/components/admin-login/AdminLogin";
 import { VisitorRegister } from "../features/visitor/visitor-register/VisitorRegister";
 import { VisitorLogin } from "../features/visitor/visitor-login/VisitorLogin";
 import { HospitalLogin } from "../features/hospital/hospital-login/HospitalLogin";

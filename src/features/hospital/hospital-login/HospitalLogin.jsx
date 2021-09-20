@@ -4,7 +4,7 @@ import { useForm } from "../../../hooks/useForm";
 
 export const HospitalLogin = () => {
   /* Hooks */
-  const [{ email, password }, reset, handleInputChange] = useForm({
+  const [{ email, password }, handleInputChange] = useForm({
     email: "email@example.com",
     password: "******",
   });

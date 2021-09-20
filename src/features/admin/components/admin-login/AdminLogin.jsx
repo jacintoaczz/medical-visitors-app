@@ -1,17 +1,60 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import { useForm } from "../../../hooks/useForm";
+import { useForm } from "../../../../hooks/useForm";
+import AssociationDataService from "../../../../services/association.service";
 
 export const AdminLogin = () => {
   /* Hooks */
-  const [{ email, password }, reset, handleInputChange] = useForm({
+  const [{ email, password }, handleInputChange] = useForm({
     email: "email@example.com",
     password: "******",
   });
+  const history = useHistory();
 
   /* Event/functionality handlers */
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const payload = {
+      email,
+      password,
+    };
+
+    AssociationDataService.login(payload)
+      .then((res) => {
+        console.log("Response: ", res);
+        history.replace(`/admin/dashboard`);
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          toast.error(
+            "No se ha encontrado un usuario con el email introducido.",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+            }
+          );
+        }
+
+        if (err.response.status === 401) {
+          toast.error("No coincide el usuario ingresado con la contraseña.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
+        }
+      });
   };
 
   return (
@@ -36,7 +79,7 @@ export const AdminLogin = () => {
             {/* Email input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="email" className="form-label">
+                <label htmlFor="email" className="form-label">
                   Email
                 </label>
                 <input
@@ -55,7 +98,7 @@ export const AdminLogin = () => {
             {/* Password input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="password" className="form-label">
+                <label htmlFor="password" className="form-label">
                   Contraseña
                 </label>
                 <input
