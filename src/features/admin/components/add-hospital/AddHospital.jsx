@@ -1,10 +1,23 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 import { useForm } from "../../../../hooks/useForm";
 import HospitalDataService from "../../../../services/hospital.service";
 
+const daysOfTheWeek = [
+  { day: "Lunes", value: 1 },
+  { day: "Martes", value: 2 },
+  { day: "Miercoles", value: 3 },
+  { day: "Jueves", value: 4 },
+  { day: "Viernes", value: 5 },
+  { day: "Sabado", value: 6 },
+  { day: "Domingo", value: 7 },
+];
+
 export const AddHospital = () => {
   /* Hooks */
+  const [days, setDays] = useState(daysOfTheWeek);
+  const [selectedDay, setSelectedDay] = useState(1);
   const [doctors, setDoctors] = useState([]);
   const [
     { name, address, email, password, dName, dLastName },
@@ -29,6 +42,10 @@ export const AddHospital = () => {
     setDoctors(doctorsArray);
   };
 
+  const handleDropdownChange = (e) => {
+    setSelectedDay(Number(e.target.value));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -37,12 +54,20 @@ export const AddHospital = () => {
       address,
       email,
       password,
+      freeDay: selectedDay,
       doctorList: doctors,
     };
 
-    console.log(hospitalModel);
     HospitalDataService.createHospital(hospitalModel).then((res) => {
-      console.log(res);
+      toast.success("Hospital agregado exitosamente.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
     });
   };
 
@@ -106,7 +131,7 @@ export const AddHospital = () => {
         {/* Password input */}
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
-            Password
+            Contraseña
           </label>
 
           <input
@@ -121,8 +146,24 @@ export const AddHospital = () => {
         </div>
         {/* #Password input */}
 
+        {/* Free day select */}
+        <select
+          className="form-select mb-3"
+          aria-label=".form-select-lg example"
+          onChange={handleDropdownChange}
+        >
+          <option selected>Escoger día líbre...</option>
+          {days &&
+            days.map((day, idx) => (
+              <option key={idx} value={day.value}>
+                {day.day}
+              </option>
+            ))}
+        </select>
+        {/* #Free day select */}
+
         <hr className="line mt-4" />
-        <h3>Agregar médico:</h3>
+        <h3>Agregar doctor(a):</h3>
         <div className="row mt-3">
           <div className="col-6">
             {/* Doctor's name input */}
@@ -174,7 +215,7 @@ export const AddHospital = () => {
           </div>
         </div>
 
-        <h4 className="mt-4">Listado de médicos: </h4>
+        <h4 className="mt-4">Listado de doctores(as): </h4>
         <ul className="list-group list-group-flush">
           {doctors &&
             doctors.map((item, idx) => (
