@@ -1,6 +1,10 @@
 import http from "../http-common";
 
 class VisitorDataService {
+  create(payload) {
+    return http.post(`/visitor/create`, payload);
+  }
+
   findAll() {
     return http.get(`/visitor/all`);
   }

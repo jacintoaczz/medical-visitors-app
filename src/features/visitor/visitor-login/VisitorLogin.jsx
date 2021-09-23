@@ -1,7 +1,10 @@
 import React from "react";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { useForm } from "../../../hooks/useForm";
+import { visitorLogin } from "../../../store/auth/auth.actions";
 import VisitorDataService from "../../../services/visitor.service";
 
 export const VisitorLogin = () => {
@@ -10,6 +13,8 @@ export const VisitorLogin = () => {
     email: "email@example.com",
     password: "******",
   });
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   /* Event/functionality handlers */
   const handleSubmit = (e) => {
@@ -22,7 +27,8 @@ export const VisitorLogin = () => {
 
     VisitorDataService.login(payload)
       .then((res) => {
-        console.log("Response: ", res);
+        dispatch(visitorLogin(res.data));
+        history.replace(`/visitor/dashboard`);
       })
       .catch((err) => {
         if (err.response.status === 404) {

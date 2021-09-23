@@ -1,21 +1,66 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { useForm } from "../../../hooks/useForm";
+import VisitorDataService from "../../../services/visitor.service";
 
 export const VisitorRegister = () => {
   /* Hooks */
-  const [{ firstName, lastName, company, email, password }, handleInputChange] =
+  const [{ name, lastName, company, email, password }, handleInputChange] =
     useForm({
-      firstName: "John",
+      name: "John",
       lastName: "Doe",
       company: "Una empresa",
       email: "email@example.com",
       password: "******",
     });
+  const history = useHistory();
 
   /* Event/functionality handlers */
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const payload = {
+      name,
+      lastName,
+      company,
+      email,
+      password,
+    };
+
+    VisitorDataService.create(payload)
+      .then((res) => {
+        history.replace(`/auth/visitor-login`);
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          toast.error("Ya existe un usuario con el email ingresado.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
+        }
+
+        if (err.response.status === 500) {
+          toast.error(
+            "Ha ocurrido un error en el servidor, intente nuevamente.",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+            }
+          );
+        }
+      });
   };
 
   return (
@@ -39,16 +84,16 @@ export const VisitorRegister = () => {
             {/* First name input */}
             <div className="col-6">
               <div className="mb-3">
-                <label htmlFor="firstName" className="form-label">
+                <label htmlFor="name" className="form-label">
                   Nombre
                 </label>
                 <input
                   type="text"
                   className="form-control"
-                  id="firstName"
+                  id="name"
                   placeholder="John"
-                  value={firstName}
-                  name="firstName"
+                  value={name}
+                  name="name"
                   onChange={handleInputChange}
                 />
               </div>
