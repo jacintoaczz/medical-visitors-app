@@ -1,6 +1,11 @@
 import React from "react";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { useForm } from "../../../hooks/useForm";
+import HospitalDataService from "../../../services/hospital.service";
+import { hospitalLogin } from "../../../store/auth/auth.actions";
 
 export const HospitalLogin = () => {
   /* Hooks */
@@ -8,10 +13,52 @@ export const HospitalLogin = () => {
     email: "email@example.com",
     password: "******",
   });
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   /* Event/functionality handlers */
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const payload = {
+      email,
+      password,
+    };
+
+    HospitalDataService.login(payload)
+      .then((res) => {
+        // console.log("Hospital data:", res.data);
+        dispatch(hospitalLogin(res.data));
+        history.replace(`/hospital/dashboard`);
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          toast.error(
+            "No se ha encontrado un usuario con el email introducido.",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+            }
+          );
+        }
+
+        if (err.response.status === 401) {
+          toast.error("No coincide el usuario ingresado con la contraseña.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
+        }
+      });
   };
 
   return (
@@ -36,7 +83,7 @@ export const HospitalLogin = () => {
             {/* Email input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="email" className="form-label">
+                <label htmlFor="email" className="form-label">
                   Email
                 </label>
                 <input
@@ -55,7 +102,7 @@ export const HospitalLogin = () => {
             {/* Password input */}
             <div className="col-6">
               <div className="mb-3">
-                <label for="password" className="form-label">
+                <label htmlFor="password" className="form-label">
                   Contraseña
                 </label>
                 <input

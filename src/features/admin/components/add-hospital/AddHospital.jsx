@@ -152,7 +152,7 @@ export const AddHospital = () => {
           aria-label=".form-select-lg example"
           onChange={handleDropdownChange}
         >
-          <option selected>Escoger día líbre...</option>
+          <option defaultValue>Escoger día líbre...</option>
           {days &&
             days.map((day, idx) => (
               <option key={idx} value={day.value}>

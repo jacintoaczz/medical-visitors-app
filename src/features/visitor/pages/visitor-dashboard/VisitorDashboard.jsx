@@ -5,7 +5,6 @@ import { AddAppointment } from "../../components/add-appointment/AddAppointment"
 export const VisitorDashboard = () => {
   /* Hooks */
   const { visitor } = useSelector((state) => state.auth);
-  console.log("Visitor data: ", visitor);
 
   return (
     <main className="container mt-4">

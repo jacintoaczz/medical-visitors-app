@@ -22,3 +22,13 @@ code {
 .form__error {
   color: red;
 }
+
+.active {
+  font-weight: bold;
+}
+
+.error_msg {
+  color: red;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}

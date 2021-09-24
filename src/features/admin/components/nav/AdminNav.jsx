@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import "./AdminNav.css";
 
@@ -7,24 +7,41 @@ export const AdminNav = () => {
   return (
     <ul className="nav justify-content-center admin__nav">
       <li className="nav-item">
-        <Link to="/admin" className="nav-link active">
+        <NavLink
+          to="/admin/dashboard"
+          className="nav-link"
+          activeClassName="active"
+          exact
+        >
           Listado de usuarios
-        </Link>
+        </NavLink>
       </li>
       <li className="nav-item">
-        <Link to="/admin/hospitals" className="nav-link active">
+        <NavLink
+          to="/admin/hospitals"
+          className="nav-link"
+          activeClassName="active"
+        >
           Hospitales
-        </Link>
+        </NavLink>
       </li>
       <li className="nav-item">
-        <Link to="/auth/visitor-login" className="nav-link">
+        <NavLink
+          to="/admin/appointments"
+          className="nav-link"
+          activeClassName="active"
+        >
           Citas
-        </Link>
+        </NavLink>
       </li>
       <li className="nav-item">
-        <Link to="/auth/visitor-login" className="nav-link">
+        <NavLink
+          to="/auth/visitor-login"
+          className="nav-link"
+          activeClassName="active"
+        >
           Reglas
-        </Link>
+        </NavLink>
       </li>
     </ul>
   );

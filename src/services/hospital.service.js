@@ -5,6 +5,10 @@ class HospitalDataService {
     return http.post(`/hospital/login`, payload);
   }
 
+  getById(id) {
+    return http.post(`/hospital/${id}`);
+  }
+
   getHospitals() {
     return http.get(`/hospital/all`);
   }

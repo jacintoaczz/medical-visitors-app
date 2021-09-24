@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -15,11 +15,25 @@ export const VisitorRegister = () => {
       email: "email@example.com",
       password: "******",
     });
+  const [nameError, setNameError] = useState(false);
+  const [lastNameError, setLastNameError] = useState(false);
+  const [companyError, setCompanyError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const history = useHistory();
 
   /* Event/functionality handlers */
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    name.trim().length > 0 ? setNameError(false) : setNameError(true);
+    lastName.trim().length > 0
+      ? setLastNameError(false)
+      : setLastNameError(true);
+    company.trim().length > 0 ? setCompanyError(false) : setCompanyError(true);
+    password.trim().length > 0
+      ? setPasswordError(false)
+      : setPasswordError(true);
 
     const payload = {
       name,
@@ -29,27 +43,29 @@ export const VisitorRegister = () => {
       password,
     };
 
-    VisitorDataService.create(payload)
-      .then((res) => {
-        history.replace(`/auth/visitor-login`);
-      })
-      .catch((err) => {
-        if (err.response.status === 401) {
-          toast.error("Ya existe un usuario con el email ingresado.", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: false,
-            progress: undefined,
-          });
-        }
+    console.log(
+      "Errores",
+      !nameError &&
+        !emailError &&
+        !lastNameError &&
+        !passwordError &&
+        !companyError
+    );
 
-        if (err.response.status === 500) {
-          toast.error(
-            "Ha ocurrido un error en el servidor, intente nuevamente.",
-            {
+    if (
+      !nameError &&
+      !lastNameError &&
+      !emailError &&
+      !companyError &&
+      !passwordError
+    ) {
+      VisitorDataService.create(payload)
+        .then((res) => {
+          history.replace(`/auth/visitor-login`);
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            toast.error("Ya existe un usuario con el email ingresado.", {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -57,10 +73,24 @@ export const VisitorRegister = () => {
               pauseOnHover: true,
               draggable: false,
               progress: undefined,
-            }
-          );
-        }
-      });
+            });
+          }
+          if (err.response.status === 500) {
+            toast.error(
+              "Ha ocurrido un error en el servidor, intente nuevamente.",
+              {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+              }
+            );
+          }
+        });
+    }
   };
 
   return (
@@ -96,6 +126,8 @@ export const VisitorRegister = () => {
                   name="name"
                   onChange={handleInputChange}
                 />
+
+                {nameError && <small className="error_msg">Requerido.</small>}
               </div>
             </div>
             {/* #First name input */}
@@ -115,6 +147,10 @@ export const VisitorRegister = () => {
                   name="lastName"
                   onChange={handleInputChange}
                 />
+
+                {lastNameError && (
+                  <small className="error_msg">Requerido.</small>
+                )}
               </div>
             </div>
             {/* Last name input */}
@@ -134,6 +170,8 @@ export const VisitorRegister = () => {
                   name="email"
                   onChange={handleInputChange}
                 />
+
+                {emailError && <small className="error_msg">Requerido.</small>}
               </div>
             </div>
             {/* Email input */}
@@ -153,6 +191,10 @@ export const VisitorRegister = () => {
                   name="company"
                   onChange={handleInputChange}
                 />
+
+                {companyError && (
+                  <small className="error_msg">Requerido.</small>
+                )}
               </div>
             </div>
             {/* Company input */}
@@ -172,6 +214,10 @@ export const VisitorRegister = () => {
                   name="password"
                   onChange={handleInputChange}
                 />
+
+                {passwordError && (
+                  <small className="error_msg">Requerido.</small>
+                )}
               </div>
             </div>
             {/* Password input */}
