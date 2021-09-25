@@ -17,48 +17,89 @@ export const Appointments = () => {
       });
   }, []);
 
-  const accept = (id) => {
-    AppointmentDataService.acceptAppointment(id).then((res) => {
-      toast.success("Cita aceptada exitosamente!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-      });
+  const accept = (id, visitorId) => {
+    const payload = {
+      id,
+      visitorId,
+    };
 
-      HospitalDataService.getHospitals()
-        .then((res) => {
-          setHospitals(res.data);
-        })
-        .catch((err) => {
-          console.log("Ha ocurrido un error: ", err);
+    AppointmentDataService.acceptAppointment(payload)
+      .then((res) => {
+        toast.success("Cita aceptada exitosamente!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
         });
-    });
+
+        HospitalDataService.getHospitals()
+          .then((res) => {
+            setHospitals(res.data);
+          })
+          .catch((err) => {
+            console.log("Ha ocurrido un error: ", err);
+          });
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          toast.error(
+            "Ya hay agendadas el máximo numero de citas en el día seleccionado.",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+            }
+          );
+        }
+
+        if (err.response.status === 403) {
+          toast.error(
+            "La empresa tiene agendadas el máximo de citas permitidas por por mes.",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+            }
+          );
+        }
+      });
   };
 
   const reject = (id) => {
-    AppointmentDataService.rejectAppointment(id).then((res) => {
-      toast.success("Cita rechazada exitosamente!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-      });
-
-      HospitalDataService.getHospitals()
-        .then((res) => {
-          setHospitals(res.data);
-        })
-        .catch((err) => {
-          console.log("Ha ocurrido un error: ", err);
+    AppointmentDataService.rejectAppointment(id)
+      .then((res) => {
+        toast.success("Cita rechazada exitosamente!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
         });
-    });
+
+        HospitalDataService.getHospitals()
+          .then((res) => {
+            setHospitals(res.data);
+          })
+          .catch((err) => {
+            console.log("Ha ocurrido un error: ", err);
+          });
+      })
+      .catch((err) => {
+        console.log("Ha ocurrido un error: ", err);
+      });
   };
 
   // const updateAppointmentStatus = (hospitalId, doctorId, appointmentId) => {
@@ -93,130 +134,98 @@ export const Appointments = () => {
 
   return (
     <main className="container mt-4">
-      {
-        hospitals &&
-          hospitals.map((hospital) => (
-            <>
-              <div className="col-6 p-3" key={hospital.id}>
-                <h2>Hospital: {hospital.name}</h2>
-                <hr className="line" />
-                {hospital.doctorList.length > 0 &&
-                  hospital.doctorList.map((doctor) => (
-                    <div className="card col-12 my-3">
-                      <div className="card-body">
-                        <h4 className="card-title">
-                          Dr. {doctor.name} {doctor.lastName}
-                        </h4>
-                        <hr className="line" />
-                        <h5>Citas:</h5>
-                        <ol class="list-group list-group-numbered">
-                          {doctor.appointmentList &&
-                            doctor.appointmentList.map((appointment) => (
-                              <li
-                                className="list-group-item d-flex justify-content-between align-items-start"
-                                key={appointment.id}
-                              >
-                                <div className="ms-2 me-auto">
-                                  <div className="fw-bold">
-                                    {appointment.visitor.name}{" "}
-                                    {appointment.visitor.lastName}
-                                  </div>
+      {hospitals &&
+        hospitals.map((hospital) => (
+          <main>
+            <div className="col-6 p-3" key={hospital.id}>
+              <h2>Hospital: {hospital.name}</h2>
+              <hr className="line" />
+              {hospital.doctorList.length > 0 &&
+                hospital.doctorList.map((doctor) => (
+                  <div className="card col-12 my-3" key={doctor.id}>
+                    <div className="card-body">
+                      <h4 className="card-title">
+                        Dr(a). {doctor.name} {doctor.lastName}
+                      </h4>
+                      <hr className="line" />
+                      <h5>Citas:</h5>
+                      <ol className="list-group list-group-numbered">
+                        {doctor.appointmentList &&
+                          doctor.appointmentList.map((appointment) => (
+                            <li
+                              className="list-group-item d-flex justify-content-between align-items-start"
+                              key={appointment.id}
+                            >
+                              <div className="ms-2 me-auto">
+                                <div className="fw-bold">
+                                  {appointment.visitor.name}{" "}
+                                  {appointment.visitor.lastName}
+                                </div>
 
-                                  <h6 className="text-center">
-                                    Empresa: {appointment.visitor.company}
-                                  </h6>
+                                <h6 className="text-center">
+                                  Empresa: {appointment.visitor.company}
+                                </h6>
 
-                                  {appointment.isPending && (
-                                    <>
-                                      <button
-                                        className="btn btn-sm btn-outline-success w-100 my-1"
-                                        type="button"
-                                        onClick={() => accept(appointment.id)}
-                                      >
-                                        Aceptar
-                                      </button>
+                                {appointment.isPending && (
+                                  <>
+                                    <button
+                                      className="btn btn-sm btn-outline-success w-100 my-1"
+                                      type="button"
+                                      onClick={() =>
+                                        accept(
+                                          appointment.id,
+                                          appointment.visitor.id
+                                        )
+                                      }
+                                    >
+                                      Aceptar
+                                    </button>
 
-                                      <button
-                                        className="btn btn-sm btn-outline-danger w-100 my-1"
-                                        type="button"
-                                        onClick={() => reject(appointment.id)}
-                                      >
-                                        Rechazar
-                                      </button>
-                                    </>
+                                    <button
+                                      className="btn btn-sm btn-outline-danger w-100 my-1"
+                                      type="button"
+                                      onClick={() => reject(appointment.id)}
+                                    >
+                                      Rechazar
+                                    </button>
+                                  </>
+                                )}
+                              </div>
+
+                              <div className="d-flex flex-column align-items-center justify-content-center">
+                                <span className="badge bg-primary rounded-pill my-2">
+                                  {appointment.date} | {appointment.time}
+                                </span>
+
+                                {!appointment.isPending &&
+                                  appointment.isAccepted && (
+                                    <span className="badge bg-success rounded-pill my-2 w-100">
+                                      Aceptada
+                                    </span>
                                   )}
-                                </div>
 
-                                <div className="d-flex flex-column align-items-center justify-content-center">
-                                  <span className="badge bg-primary rounded-pill my-2">
-                                    {appointment.date} | {appointment.time}
-                                  </span>
-
-                                  {!appointment.isPending &&
-                                    appointment.isAccepted && (
-                                      <span className="badge bg-success rounded-pill my-2 w-100">
-                                        Aceptada
-                                      </span>
-                                    )}
-
-                                  {!appointment.isPending &&
-                                    !appointment.isAccepted && (
-                                      <span className="badge bg-danger rounded-pill my-2 w-100">
-                                        Rechazada
-                                      </span>
-                                    )}
-                                </div>
-                              </li>
-                            ))}
-                        </ol>
-                      </div>
+                                {!appointment.isPending &&
+                                  !appointment.isAccepted && (
+                                    <span className="badge bg-danger rounded-pill my-2 w-100">
+                                      Rechazada
+                                    </span>
+                                  )}
+                              </div>
+                            </li>
+                          ))}
+                      </ol>
                     </div>
-                  ))}
+                  </div>
+                ))}
+            </div>
+
+            {hospital.doctorList.length === 0 && (
+              <div className="col-6 text-center">
+                <h3>No hay doctores asociados</h3>
               </div>
-
-              {hospital.doctorList.length === 0 && (
-                <div className="col-6 text-center">
-                  <h3>No hay doctores asociados</h3>
-                </div>
-              )}
-            </>
-          ))
-
-        // .doctorList.map((doctor) => (
-        //   <div className="card col-6 my-3">
-        //     <div className="card-body">
-        //       <h4 className="card-title">
-        //         Dr. {doctor.name} {doctor.lastName}
-        //       </h4>
-        //       <hr className="line" />
-        //       <h5>Citas:</h5>
-        //       <ol class="list-group list-group-numbered">
-        //         {doctor.appointmentList &&
-        //           doctor.appointmentList.map((appointment) => (
-        //             <li
-        //               className="list-group-item d-flex justify-content-between align-items-start"
-        //               key={appointment.id}
-        //             >
-        //               <div className="ms-2 me-auto">
-        //                 <div className="fw-bold">
-        //                   {appointment.visitor.name}{" "}
-        //                   {appointment.visitor.lastName}
-        //                 </div>
-
-        //                 <h6 className="text-center">
-        //                   Empresa: {appointment.visitor.company}
-        //                 </h6>
-        //               </div>
-        //               <span className="badge bg-primary rounded-pill">
-        //                 {appointment.date} | {appointment.time}
-        //               </span>
-        //             </li>
-        //           ))}
-        //       </ol>
-        //     </div>
-        //   </div>
-        // ))
-      }
+            )}
+          </main>
+        ))}
     </main>
   );
 };

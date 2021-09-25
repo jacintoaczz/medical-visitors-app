@@ -72,30 +72,24 @@ export const AddAppointment = () => {
     selectedHospital ? setHospitalError(false) : setHospitalError(true);
     selectedDoctor ? setDoctorError(false) : setDoctorError(true);
 
-    if (!doctorError && !hospitalError) {
+    console.log("Inputs are valid? ", validateFields());
+    if (validateFields()) {
       AppointmentDataService.createAppointment(payload)
         .then((res) => {
-          console.log("Data: ", res);
+          toast.success("Cita creada exitosamente!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
         })
         .catch((err) => {
-          if (err.response.status === 401) {
+          if (err.response.status === 406) {
             toast.error(
-              "Ya existen dos citas el día seleccionado, por favor, cambie la fecha.",
-              {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: false,
-                progress: undefined,
-              }
-            );
-          }
-
-          if (err.response.status === 403) {
-            toast.error(
-              "Su empresa no puede visitar mas veces el hospital seleccionado por este mes.",
+              "El día de la semana escogido concuerda con el día libre del hospital.",
               {
                 position: "top-right",
                 autoClose: 5000,
@@ -108,6 +102,17 @@ export const AddAppointment = () => {
             );
           }
         });
+    }
+  };
+
+  const validateFields = () => {
+    selectedHospital ? setHospitalError(false) : setHospitalError(true);
+    selectedDoctor ? setDoctorError(false) : setDoctorError(true);
+
+    if (selectedDoctor && selectedHospital) {
+      return true;
+    } else {
+      return false;
     }
   };
 

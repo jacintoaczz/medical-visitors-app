@@ -1,8 +1,10 @@
 import http from "../http-common";
 
 class AppointmentDataService {
-  acceptAppointment(id) {
-    return http.put(`/appointment/accept/${id}`);
+  acceptAppointment(payload) {
+    return http.put(
+      `/appointment/accept/date=${payload.id}&visitor=${payload.visitorId}`
+    );
   }
 
   getAppointments() {

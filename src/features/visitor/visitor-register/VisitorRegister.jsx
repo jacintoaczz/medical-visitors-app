@@ -7,33 +7,28 @@ import VisitorDataService from "../../../services/visitor.service";
 
 export const VisitorRegister = () => {
   /* Hooks */
-  const [{ name, lastName, company, email, password }, handleInputChange] =
-    useForm({
-      name: "John",
-      lastName: "Doe",
-      company: "Una empresa",
-      email: "email@example.com",
-      password: "******",
-    });
+  const [
+    { name, lastName, company, email, password, passwordConfirm },
+    handleInputChange,
+  ] = useForm({
+    name: "John",
+    lastName: "Doe",
+    company: "Una empresa",
+    email: "email@example.com",
+    password: "******",
+    passwordConfirm: "*******",
+  });
   const [nameError, setNameError] = useState(false);
   const [lastNameError, setLastNameError] = useState(false);
   const [companyError, setCompanyError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [passwordCError, setPasswordCError] = useState(false);
   const history = useHistory();
 
   /* Event/functionality handlers */
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    name.trim().length > 0 ? setNameError(false) : setNameError(true);
-    lastName.trim().length > 0
-      ? setLastNameError(false)
-      : setLastNameError(true);
-    company.trim().length > 0 ? setCompanyError(false) : setCompanyError(true);
-    password.trim().length > 0
-      ? setPasswordError(false)
-      : setPasswordError(true);
 
     const payload = {
       name,
@@ -43,22 +38,7 @@ export const VisitorRegister = () => {
       password,
     };
 
-    console.log(
-      "Errores",
-      !nameError &&
-        !emailError &&
-        !lastNameError &&
-        !passwordError &&
-        !companyError
-    );
-
-    if (
-      !nameError &&
-      !lastNameError &&
-      !emailError &&
-      !companyError &&
-      !passwordError
-    ) {
+    if (validateFields()) {
       VisitorDataService.create(payload)
         .then((res) => {
           history.replace(`/auth/visitor-login`);
@@ -90,6 +70,37 @@ export const VisitorRegister = () => {
             );
           }
         });
+    }
+  };
+
+  const validateFields = () => {
+    name.trim().length > 0 ? setNameError(false) : setNameError(true);
+    email.trim().length > 0 ? setEmailError(false) : setEmailError(true);
+    lastName.trim().length > 0
+      ? setLastNameError(false)
+      : setLastNameError(true);
+    company.trim().length > 0 ? setCompanyError(false) : setCompanyError(true);
+    password.trim().length > 0
+      ? setPasswordError(false)
+      : setPasswordError(true);
+
+    if (password !== passwordConfirm) {
+      setPasswordCError(true);
+    } else {
+      setPasswordCError(false);
+    }
+
+    if (
+      name &&
+      lastName &&
+      email &&
+      company &&
+      password &&
+      password === passwordConfirm
+    ) {
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -233,7 +244,16 @@ export const VisitorRegister = () => {
                   className="form-control"
                   id="confirmPassword"
                   placeholder="*********"
+                  value={passwordConfirm}
+                  name="passwordConfirm"
+                  onChange={handleInputChange}
                 />
+
+                {passwordCError && (
+                  <small className="error_msg">
+                    Las contraseñas no coinciden.
+                  </small>
+                )}
               </div>
             </div>
             {/* Password input */}
