@@ -10,8 +10,8 @@ import { hospitalLogin } from "../../../store/auth/auth.actions";
 export const HospitalLogin = () => {
   /* Hooks */
   const [{ email, password }, handleInputChange] = useForm({
-    email: "email@example.com",
-    password: "******",
+    email: "test@hospital.com",
+    password: "123456",
   });
   const history = useHistory();
   const dispatch = useDispatch();

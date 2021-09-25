@@ -27,6 +27,20 @@ export const VisitorCard = ({
     });
   };
 
+  const deleteVisitor = () => {
+    VisitorDataService.delete(id).then((res) => {
+      toast.success("Usuario eliminado correctamente.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+    });
+  };
+
   return (
     <div className="card col-12 m-3">
       <h5 className="card-header">
@@ -46,7 +60,12 @@ export const VisitorCard = ({
           {isActive && (
             <>
               <div className="col-6 offset-6">
-                <button className="btn btn-danger w-100">Dar de baja</button>
+                <button
+                  className="btn btn-danger w-100"
+                  onClick={deleteVisitor}
+                >
+                  Dar de baja
+                </button>
               </div>
             </>
           )}

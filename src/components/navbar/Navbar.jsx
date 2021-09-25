@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/auth/auth.actions";
 
 export const Navbar = () => {
-  const { visitor, hospital } = useSelector((state) => state.auth);
+  const { visitor, hospital, admin } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -44,12 +44,51 @@ export const Navbar = () => {
                 Principal
               </NavLink>
             </li>
+
+            {hospital && (
+              <li className="nav-item">
+                <NavLink
+                  to="/hospital/dashboard"
+                  className="nav-link"
+                  activeClassName="active"
+                  exact
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+            )}
+
+            {visitor && (
+              <li className="nav-item">
+                <NavLink
+                  to="/visitor/dashboard"
+                  className="nav-link"
+                  activeClassName="active"
+                  exact
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+            )}
+
+            {admin && (
+              <li className="nav-item">
+                <NavLink
+                  to="/admin/dashboard"
+                  className="nav-link"
+                  activeClassName="active"
+                  exact
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
 
         {visitor && <span>Hola, {visitor.name}.</span>}
 
-        {(hospital || visitor) && (
+        {(hospital || visitor || admin) && (
           <button
             className="btn btn-sm btn-outline-secondary ms-3"
             type="button"

@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+import HospitalDataService from "../../../../services/hospital.service";
 
 const daysOfTheWeek = [
   { day: "Lunes", value: 1 },
@@ -18,12 +21,41 @@ export const HospitalCard = ({ name, email, id, address, freeDay }) => {
     setDay(selectedDay);
   }, [freeDay]);
 
+  const deleteHospital = () => {
+    HospitalDataService.delete(id).then((res) => {
+      toast.success("Hospital eliminado correctamente.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+    });
+  };
+
   return (
     <div className="card col-12 m-3">
       <h4 className="card-header">
-        <strong>{name}</strong>
+        <div className="row">
+          <div className="col-12 d-flex align-items-center justify-content-between">
+            <strong>{name}</strong>
+
+            <button
+              className="btn btn-sm btn-outline-danger ms-3"
+              type="button"
+              onClick={deleteHospital}
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+
         <br />
-        <small> Email: {email}</small>
+        <div className="col-12">
+          <small> Email: {email}</small>
+        </div>
       </h4>
 
       <div className="card-body">

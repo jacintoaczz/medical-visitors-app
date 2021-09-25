@@ -4,8 +4,10 @@ export const authReducer = (state = {}, action) => {
   switch (action.type) {
     case types.adminLogin:
       return {
+       admin: {
         id: action.payload.id,
         name: action.payload.name,
+       }
       };
 
     case types.visitorLogin:

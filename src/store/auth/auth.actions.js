@@ -14,6 +14,13 @@ export const hospitalLogin = (payload) => {
   };
 };
 
+export const adminLogin = (payload) => {
+  return {
+    type: types.adminLogin,
+    payload,
+  };
+};
+
 export const logout = () => {
   return {
     type: types.logout,

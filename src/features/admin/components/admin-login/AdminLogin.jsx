@@ -1,9 +1,11 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useForm } from "../../../../hooks/useForm";
 import AssociationDataService from "../../../../services/association.service";
+import { adminLogin } from "../../../../store/auth/auth.actions";
 
 export const AdminLogin = () => {
   /* Hooks */
@@ -12,6 +14,7 @@ export const AdminLogin = () => {
     password: "******",
   });
   const history = useHistory();
+  const dispatch = useDispatch();
 
   /* Event/functionality handlers */
   const handleSubmit = (e) => {
@@ -25,6 +28,7 @@ export const AdminLogin = () => {
     AssociationDataService.login(payload)
       .then((res) => {
         console.log("Response: ", res);
+        dispatch(adminLogin(res.data));
         history.replace(`/admin/dashboard`);
       })
       .catch((err) => {

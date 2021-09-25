@@ -10,15 +10,13 @@ export const Hospitals = () => {
 
   useEffect(() => {
     HospitalDataService.getHospitals().then((res) => {
-      const hospitals = res.data;
+      const hospitals = res.data.filter((item) => !item.isDeleted);
       setHospitals(hospitals);
     });
   }, []);
 
   return (
     <main className="container mt-4">
-      <h1 className="text-center">Hospitales</h1>
-
       <div className="row mt-3">
         <div className="col-6 p-4">
           <h2>Listado:</h2>

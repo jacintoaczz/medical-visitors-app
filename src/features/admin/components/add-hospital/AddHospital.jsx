@@ -92,18 +92,15 @@ export const AddHospital = () => {
           }
 
           if (err.response.status === 403) {
-            toast.error(
-              "El día seleccionado corresponde con el día libre del hospital.",
-              {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: false,
-                progress: undefined,
-              }
-            );
+            toast.error("Ya existe un hospital con el nombre ingresado.", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+            });
           }
 
           if (err.response.status === 500) {
