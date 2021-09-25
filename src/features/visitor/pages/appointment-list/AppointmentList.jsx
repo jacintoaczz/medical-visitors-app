@@ -1,8 +1,18 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import VisitorDataService from "../../../../services/visitor.service";
+import { visitorLogin } from "../../../../store/auth/auth.actions";
 
 export const AppointmentList = () => {
+  const dispatch = useDispatch();
   const { visitor } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    VisitorDataService.find(visitor.id).then((res) => {
+      dispatch(visitorLogin(res.data));
+    });
+  }, [visitor.id, dispatch]);
 
   return (
     <main className="row d-flex align-items-center justify-content-center">

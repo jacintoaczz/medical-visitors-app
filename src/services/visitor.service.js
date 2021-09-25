@@ -13,6 +13,10 @@ class VisitorDataService {
     return http.get(`${API_ENDPOINT}all`);
   }
 
+  find(id) {
+    return http.get(`${API_ENDPOINT}/${id}`);
+  }
+
   login(payload) {
     return http.post(`${API_ENDPOINT}login`, payload);
   }
