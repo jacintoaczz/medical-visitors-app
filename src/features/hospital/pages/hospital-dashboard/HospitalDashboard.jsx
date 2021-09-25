@@ -12,19 +12,19 @@ export const HospitalDashboard = () => {
     dName: "Jane",
     dLastName: "Doe",
   });
-  const [notAcceptedAppointments, setNotAcceptedAppointments] = useState([]);
+
   const { hospital } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const [days, setDays] = useState([
     "",
+    "Domingo",
     "Lunes",
     "Martes",
     "Miercoles",
     "Jueves",
     "Viernes",
     "Sabado",
-    "Domingo",
   ]);
 
   const addDoctor = () => {
