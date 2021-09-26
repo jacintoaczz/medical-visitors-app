@@ -14,6 +14,7 @@ export const HospitalDashboard = () => {
   });
 
   const { hospital } = useSelector((state) => state.auth);
+  const [hospitalsData, setHospitalsData] = useState([]);
   const dispatch = useDispatch();
 
   const [days, setDays] = useState([
@@ -45,7 +46,15 @@ export const HospitalDashboard = () => {
       });
 
       HospitalDataService.getById(hospital.id).then((res) => {
-        dispatch(hospitalLogin(res.data));
+        const responseData = res.data;
+        const updatedDoctorList = responseData.doctorList.filter(
+          (el, idx, self) =>
+            self.findIndex((elemnt) => elemnt.doctorId === el.doctorId) === idx
+        );
+
+        responseData.doctorList = updatedDoctorList;
+
+        dispatch(hospitalLogin(responseData));
       });
     });
   };
@@ -165,7 +174,10 @@ export const HospitalDashboard = () => {
                           )}
 
                           {appointment.isPending && (
-                            <small className="text=muted text-center">
+                            <small
+                              className="text=muted text-center"
+                              key={appointment.id}
+                            >
                               - Cita pendiente por actualización de status -
                             </small>
                           )}
