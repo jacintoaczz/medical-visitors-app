@@ -137,7 +137,7 @@ export const Appointments = () => {
       {hospitals &&
         hospitals.map((hospital) => (
           <main>
-            <div className="col-6 p-3" key={hospital.id}>
+            <div className="col-6 p-3 column" key={hospital.id}>
               <h2>Hospital: {hospital.name}</h2>
               <hr className="line" />
               {hospital.doctorList.length > 0 &&

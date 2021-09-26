@@ -4,13 +4,13 @@ import { toast } from "react-toastify";
 import HospitalDataService from "../../../../services/hospital.service";
 
 const daysOfTheWeek = [
-  { day: "Lunes", value: 1 },
-  { day: "Martes", value: 2 },
-  { day: "Miercoles", value: 3 },
-  { day: "Jueves", value: 4 },
-  { day: "Viernes", value: 5 },
-  { day: "Sabado", value: 6 },
-  { day: "Domingo", value: 7 },
+  { day: "Domingo", value: 1 },
+  { day: "Lunes", value: 2 },
+  { day: "Martes", value: 3 },
+  { day: "Miercoles", value: 4 },
+  { day: "Jueves", value: 5 },
+  { day: "Viernes", value: 6 },
+  { day: "Sabado", value: 7 },
 ];
 
 export const HospitalCard = ({ name, email, id, address, freeDay }) => {

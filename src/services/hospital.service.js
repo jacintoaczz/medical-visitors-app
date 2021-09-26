@@ -14,7 +14,7 @@ class HospitalDataService {
   }
 
   getById(id) {
-    return http.post(`${API_ENDPOINT}${id}`);
+    return http.get(`${API_ENDPOINT}${id}`);
   }
 
   getHospitals() {

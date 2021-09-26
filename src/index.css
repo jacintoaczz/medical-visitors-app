@@ -32,3 +32,13 @@ code {
   font-weight: bold;
   margin-top: 0.5rem;
 }
+
+.column {
+  max-height: 35rem;
+  overflow-y: scroll;
+}
+
+.inner-column {
+  max-height: 15rem;
+  overflow-y: scroll;
+}

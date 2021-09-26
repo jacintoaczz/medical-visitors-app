@@ -44,7 +44,9 @@ export const HospitalDashboard = () => {
         progress: undefined,
       });
 
-      dispatch(hospitalLogin(res.data));
+      HospitalDataService.getById(hospital.id).then((res) => {
+        dispatch(hospitalLogin(res.data));
+      });
     });
   };
 
@@ -81,7 +83,7 @@ export const HospitalDashboard = () => {
                     type="text"
                     className="form-control"
                     id="dName"
-                    placeholder="name@example.com"
+                    placeholder="Jane"
                     name="dName"
                     value={dName}
                     onChange={handleInputChange}
@@ -100,7 +102,7 @@ export const HospitalDashboard = () => {
                     type="text"
                     className="form-control"
                     id="dLastName"
-                    placeholder="name@example.com"
+                    placeholder="Doe"
                     name="dLastName"
                     value={dLastName}
                     onChange={handleInputChange}
@@ -125,7 +127,7 @@ export const HospitalDashboard = () => {
         {/* #Hospital info */}
 
         {/* Doctor's info */}
-        <div className="col-6 p-4">
+        <div className="col-6 p-4 column">
           <h2>Doctores activos:</h2>
           <hr className="line" />
           {hospital.doctorList &&
@@ -137,7 +139,7 @@ export const HospitalDashboard = () => {
                   </h4>
                   <hr className="line" />
                   <h5>Citas:</h5>
-                  <ol className="list-group list-group-numbered">
+                  <ol className="list-group list-group-numbered inner-column">
                     {doctor.appointmentList &&
                       doctor.appointmentList.map((appointment) => (
                         <>

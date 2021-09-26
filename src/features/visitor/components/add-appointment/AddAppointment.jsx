@@ -72,7 +72,6 @@ export const AddAppointment = () => {
     selectedHospital ? setHospitalError(false) : setHospitalError(true);
     selectedDoctor ? setDoctorError(false) : setDoctorError(true);
 
-    console.log("Inputs are valid? ", validateFields());
     if (validateFields()) {
       AppointmentDataService.createAppointment(payload)
         .then((res) => {
@@ -166,7 +165,7 @@ export const AddAppointment = () => {
                 {doctors &&
                   doctors.map((doctor) => (
                     <option key={doctor.id} value={doctor.doctorId}>
-                      {doctor.name}
+                      {doctor.name} {doctor.lastName}
                     </option>
                   ))}
               </select>
