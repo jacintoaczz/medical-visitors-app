@@ -34,7 +34,7 @@ export const AdminNav = () => {
           Citas
         </NavLink>
       </li>
-      <li className="nav-item">
+      {/*       <li className="nav-item">
         <NavLink
           to="/auth/visitor-login"
           className="nav-link"
@@ -42,7 +42,7 @@ export const AdminNav = () => {
         >
           Reglas
         </NavLink>
-      </li>
+      </li> */}
     </ul>
   );
 };
